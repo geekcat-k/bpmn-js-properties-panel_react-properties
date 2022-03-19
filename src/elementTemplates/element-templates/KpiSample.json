@@ -1,0 +1,98 @@
+{
+  "name": "KPI",
+  "id": "jp.co.dts.example.KPI",
+  "appliesTo": ["bpmn:Task"],
+  "properties": [
+    {
+      "label": "KPIラベル",
+      "type": "String",
+      "value": "",
+      "editable": true,
+      "binding": {
+        "type": "camunda:property",
+        "name": "kpiLabel"
+      }
+    },
+    {
+      "label": "Task Priority",
+      "type": "Dropdown",
+      "value": "50",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "priority"
+      },
+      "choices": [
+        { "name": "low", "value": "20" },
+        { "name": "medium", "value": "50" },
+        { "name": "height", "value": "100" }
+      ]
+    },
+    {
+      "label": "Sender",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "sender"
+      },
+      "constraints": {
+        "notEmpty": true,
+        "pattern": {
+          "value": "^[A-z0-9._%+-]+@[A-z0-9.-]+\\.[A-z]{2,}$",
+          "message": "Must be a valid email."
+        }
+      }
+    },
+    {
+      "label": "Receivers",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "receivers"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Template",
+      "description": "By the way, you can use <a href=\"https://freemarker.apache.org/\">freemarker templates</a> here",
+      "value": "Hello ${firstName}!",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "messageBody",
+        "scriptFormat": "freemarker"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Result Status",
+      "description": "The process variable to which to assign the send result to",
+      "value": "mailSendResult",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${ resultStatus }"
+      }
+    },
+    {
+      "label": "Send Async?",
+      "type": "Boolean",
+      "value": true,
+      "binding": {
+        "type": "property",
+        "name": "camunda:asyncBefore"
+      }
+    }
+  ],
+  "entriesVisible": {
+    "_all": true,
+    "asyncAfter": false,
+    "asyncBefore": false,
+    "exclusive": false,
+    "jobPriority": false,
+    "failedJobRetryTimeCycle": false
+  }
+}
